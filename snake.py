@@ -43,14 +43,14 @@ def move_snake(direction):
 
         if direction == curses.KEY_DOWN:
             new_head[0] += 1
-        elif  == curses.KEY_UP:
+        elif direction == curses.KEY_UP:
             new_head[0] -= 1
         elif direction == curses.KEY_LEFT:
             new_head[1] -= 1
         elif direction == curses.KEY_RIGHT:
             new_head[1] += 1
         else:
-            raise NotImplemented("Invalid Direction")
+            raise ValueError("Invalid Direction")
 
         snake.insert(0, new_head)
 
