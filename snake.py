@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-'''
+"""
 Credit to engineer-man <github@engineerman.org> for original snake game code.
-'''
+"""
 
 import curses
 import random
@@ -10,8 +10,7 @@ import random
 import QLearner
 
 
-class snakeGame():
-
+class snakeGame:
     def __init__(self, show=True):
         self.show = show
         screen = curses.initscr()
@@ -21,13 +20,9 @@ class snakeGame():
         self.window.keypad(1)
         self.window.timeout(100)
 
-        snk_x = self.screenWidth//4
-        snk_y = self.screenHeight//2
-        self.snake = [
-            [snk_y, snk_x],
-            [snk_y, snk_x-1],
-            [snk_y, snk_x-2]
-        ]
+        snk_x = self.screenWidth // 4
+        snk_y = self.screenHeight // 2
+        self.snake = [[snk_y, snk_x], [snk_y, snk_x - 1], [snk_y, snk_x - 2]]
         self.food = self.newFood(self.snake, self.screenHeight, self.screenWidth)
 
     @property
@@ -46,17 +41,19 @@ class snakeGame():
         direction = 3
         while True:
             next_key = self.window.getch()
-            key = key if next_key == -1 else next_key    
+            key = key if next_key == -1 else next_key
 
             if key == curses.KEY_DOWN:
                 direction = 0
-            elif key== curses.KEY_UP:
+            elif key == curses.KEY_UP:
                 direction = 1
             elif key == curses.KEY_LEFT:
                 direction = 2
             elif key == curses.KEY_RIGHT:
                 direction = 3
-            self.snake = self.moveSnake(direction, self.food, self.screenHeight, self.screenWidth)
+            self.snake = self.moveSnake(
+                direction, self.food, self.screenHeight, self.screenWidth
+            )
             self.updateMap(direction)
 
     @staticmethod
@@ -64,12 +61,11 @@ class snakeGame():
         food = None
         while food is None:
             nf = [
-                random.randint(1, screenHeight-1),
-                random.randint(1, screenWidth-1)
+                random.randint(1, screenHeight - 1),
+                random.randint(1, screenWidth - 1),
             ]
             food = nf if nf not in snake else None
         return food
-
 
     @staticmethod
     def moveSnake(snake, direction, goal, height, width):
@@ -94,15 +90,19 @@ class snakeGame():
             self.food = self.newFood(self.snake, self.screenHeight, self.screenWidth)
             if self.show:
                 self.window.addch(*self.food, curses.ACS_PI)
-        elif self.snake[0][0] in [0, self.screenHeight] or self.snake[0][1] in [0, self.screenWidth] or self.snake[0] in self.snake[1:]:
+        elif (
+            self.snake[0][0] in [0, self.screenHeight]
+            or self.snake[0][1] in [0, self.screenWidth]
+            or self.snake[0] in self.snake[1:]
+        ):
             raise Exception("Game Over")
         else:
             tail = self.snake.pop()
-            if self.show: 
-                self.window.addch(*tail, ' ')
+            if self.show:
+                self.window.addch(*tail, " ")
 
-        if self.show: self.window.addch(*self.snake[0], curses.ACS_CKBOARD)
-        
+        if self.show:
+            self.window.addch(*self.snake[0], curses.ACS_CKBOARD)
 
 
 if __name__ == "__main__":
@@ -110,6 +110,6 @@ if __name__ == "__main__":
     try:
         game.play()
     except:
-        raise 
+        raise
     finally:
         curses.endwin()
