@@ -52,9 +52,9 @@ class snakeGame:
             elif key == curses.KEY_RIGHT:
                 direction = 3
             self.snake = self.moveSnake(
-                direction, self.food, self.screenHeight, self.screenWidth
+                self.snake, direction, self.food, self.screenHeight, self.screenWidth
             )
-            self.updateMap(direction)
+            self.updateMap()#direction)
 
     @staticmethod
     def newFood(snake, screenHeight, screenWidth):
@@ -106,10 +106,12 @@ class snakeGame:
 
 
 if __name__ == "__main__":
+    message = ""
     game = snakeGame()
     try:
         game.play()
-    except:
-        raise
+    except Exception as e:
+        message = str(e)
     finally:
         curses.endwin()
+        print(message)
