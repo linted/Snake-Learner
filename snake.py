@@ -37,6 +37,8 @@ class snakeGame:
             self.__verbose = False
 
     def play(self):
+        if self.show:
+            self.window.addch(*self.food, curses.ACS_PI)
         key = curses.KEY_RIGHT
         direction = 3
         while True:
